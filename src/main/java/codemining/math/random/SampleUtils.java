@@ -1,0 +1,118 @@
+/**
+ * 
+ */
+package codemining.math.random;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.lang.math.RandomUtils;
+
+import codemining.util.StatsUtil;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multiset;
+
+/**
+ * A utility class for sampling from sets and multisets.
+ * 
+ * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
+ * 
+ */
+public class SampleUtils {
+
+	/**
+	 * Get a uniformly random element from a Multiset.
+	 * 
+	 * @param set
+	 * @return
+	 */
+	public static <T> T getRandomElement(final Multiset<T> set) {
+		final int randPos = RandomUtils.nextInt(checkNotNull(set).size());
+
+		T selected = null;
+		int i = 0;
+		for (final com.google.common.collect.Multiset.Entry<T> entry : set
+				.entrySet()) {
+			i += entry.getCount();
+			if (i > randPos) {
+				selected = entry.getElement();
+				break;
+			}
+		}
+		return selected;
+	}
+
+	/**
+	 * Get a random index when selecting from the given unnormalized
+	 * log2-probabilities.
+	 * 
+	 * @param log2ProbWeights
+	 * @return
+	 */
+	public static int getRandomIndex(final double[] log2ProbWeights) {
+		// TODO: need safe implementation.
+
+		double max = Double.NEGATIVE_INFINITY;
+		for (final double log2Prob : log2ProbWeights) {
+			if (max < log2Prob) {
+				max = log2Prob;
+			}
+		}
+
+		final double[] weights = new double[log2ProbWeights.length];
+		double sum = 0;
+
+		for (int i = 0; i < log2ProbWeights.length; i++) {
+			final double prob = Math.pow(2, log2ProbWeights[i] - max);
+			sum += prob;
+			weights[i] = prob;
+		}
+
+		final double randomPoint = RandomUtils.nextDouble() * sum;
+		double partialSum = 0;
+		for (int i = 0; i < log2ProbWeights.length; i++) {
+			partialSum += weights[i];
+			if (partialSum >= randomPoint) {
+				return i;
+			}
+		}
+		throw new IllegalStateException("Should not have reached here.");
+	}
+
+	/**
+	 * Return a random T where each T is associated with a double log2
+	 * probability.
+	 * 
+	 * @param log2ProbWeights
+	 * @return
+	 */
+	public static <T> T getRandomIndex(final Map<T, Double> log2ProbWeights) {
+		final double max = StatsUtil.max(log2ProbWeights.values());
+
+		final Map<T, Double> weights = Maps.newHashMap();
+		double sum = 0;
+
+		for (final Entry<T, Double> entry : log2ProbWeights.entrySet()) {
+			final double prob = Math.pow(2, entry.getValue() - max);
+			weights.put(entry.getKey(), prob);
+
+			sum += prob;
+		}
+
+		final double randomPoint = RandomUtils.nextDouble() * sum;
+		double partialSum = 0;
+		for (final Entry<T, Double> entry : weights.entrySet()) {
+			partialSum += entry.getValue();
+			if (partialSum >= randomPoint) {
+				return entry.getKey();
+			}
+		}
+		throw new IllegalStateException("Should not have reached here.");
+	}
+
+	private SampleUtils() {
+	}
+}

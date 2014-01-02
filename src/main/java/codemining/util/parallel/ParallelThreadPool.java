@@ -1,0 +1,60 @@
+/**
+ * 
+ */
+package codemining.util.parallel;
+
+import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+
+import codemining.util.SettingsLoader;
+
+/**
+ * A wrapper around Java's thread pool.
+ * 
+ * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
+ * 
+ */
+public class ParallelThreadPool {
+
+	private static final Logger LOGGER = Logger
+			.getLogger(ParallelThreadPool.class.getName());
+
+	private final ExecutorService threadPool;
+
+	public static final int NUM_THREADS = (int) SettingsLoader
+			.getNumericSetting("nThreads", 10);
+
+	/**
+	 * 
+	 */
+	public ParallelThreadPool() {
+		threadPool = Executors.newFixedThreadPool(NUM_THREADS);
+	}
+
+	public void pushAll(final Collection<Runnable> tasks) {
+		for (final Runnable task : tasks) {
+			threadPool.execute(task);
+		}
+	}
+
+	public void pushTask(final Runnable task) {
+		threadPool.execute(task);
+	}
+
+	public boolean waitForTermination() {
+		threadPool.shutdown();
+		try {
+			return threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		} catch (final InterruptedException e) {
+			LOGGER.warning("Thread Pool Interrupted "
+					+ ExceptionUtils.getFullStackTrace(e));
+		}
+		return false;
+	}
+
+}

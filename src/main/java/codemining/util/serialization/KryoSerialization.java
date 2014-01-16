@@ -10,11 +10,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.logging.Logger;
 
-import org.objenesis.strategy.SerializingInstantiatorStrategy;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.shaded.org.objenesis.strategy.SerializingInstantiatorStrategy;
 
 /**
  * A utility class for serialization.

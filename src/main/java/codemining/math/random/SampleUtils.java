@@ -5,6 +5,8 @@ package codemining.math.random;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,7 +14,10 @@ import org.apache.commons.lang.math.RandomUtils;
 
 import codemining.util.StatsUtil;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 
 /**
@@ -53,8 +58,6 @@ public class SampleUtils {
 	 * @return
 	 */
 	public static int getRandomIndex(final double[] log2ProbWeights) {
-		// TODO: need safe implementation.
-
 		double max = Double.NEGATIVE_INFINITY;
 		for (final double log2Prob : log2ProbWeights) {
 			if (max < log2Prob) {
@@ -111,6 +114,57 @@ public class SampleUtils {
 			}
 		}
 		throw new IllegalStateException("Should not have reached here.");
+	}
+
+	/**
+	 * Partition the elements T in partition, whose relative size is given
+	 * approximately by partitionWeights. Here we do a best effort to match the
+	 * weights.
+	 * 
+	 * @param elementWeights
+	 * @param partitionWeights
+	 * @return
+	 */
+	public static <K, T> Multimap<K, T> randomPartition(
+			final Map<T, Double> elementWeights,
+			final Map<K, Double> partitionWeights) {
+		final Multimap<K, T> partitions = HashMultimap.create();
+
+		final double elementWeightSum = StatsUtil.sum(elementWeights.values());
+		final double partitionWeightSum = StatsUtil.sum(partitionWeights
+				.values());
+
+		final List<Entry<T, Double>> elements = Lists
+				.newArrayList(elementWeights.entrySet());
+		Collections.shuffle(elements);
+
+		final List<Entry<K, Double>> partitionList = Lists
+				.newArrayList(partitionWeights.entrySet());
+
+		int currentPartitionIdx = 0;
+		double currentElementSum = 0;
+		double currentPartitionSum = 0;
+
+		for (int currentElementIdx = 0; currentElementIdx < elements.size(); currentElementIdx++) {
+			double partitionRandomPoint = (currentPartitionSum + partitionList
+					.get(currentPartitionIdx).getValue()) / partitionWeightSum;
+			final double elementRandomPoint = currentElementSum
+					/ elementWeightSum;
+			currentElementSum += elements.get(currentElementIdx).getValue();
+
+			while (partitionRandomPoint <= elementRandomPoint) {
+				currentPartitionSum += partitionList.get(currentPartitionIdx)
+						.getValue();
+				currentPartitionIdx++;
+				partitionRandomPoint = (currentPartitionSum + partitionList
+						.get(currentPartitionIdx).getValue())
+						/ partitionWeightSum;
+			}
+			partitions.put(partitionList.get(currentPartitionIdx).getKey(),
+					elements.get(currentElementIdx).getKey());
+		}
+
+		return partitions;
 	}
 
 	private SampleUtils() {

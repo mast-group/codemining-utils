@@ -4,6 +4,7 @@
 package codemining.util.parallel;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -36,12 +37,25 @@ public class ParallelThreadPool {
 		threadPool = Executors.newFixedThreadPool(NUM_THREADS);
 	}
 
+	/**
+	 * Interrupt the execution of any future tasks, returning tasks that have
+	 * been interrupted.
+	 */
+	public List<Runnable> interrupt() {
+		return threadPool.shutdownNow();
+	}
+
 	public void pushAll(final Collection<Runnable> tasks) {
 		for (final Runnable task : tasks) {
 			threadPool.execute(task);
 		}
 	}
 
+	/**
+	 * Push a task to be executed.
+	 * 
+	 * @param task
+	 */
 	public void pushTask(final Runnable task) {
 		threadPool.execute(task);
 	}

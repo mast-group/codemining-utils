@@ -96,9 +96,11 @@ public class FilesetSplit {
 		final Multimap<String, File> fileSplit = SampleUtils.randomPartition(
 				fileWeights, segments);
 		// Start copying
+		final String pathSeparator = System.getProperty("file.separator");
 		for (final Entry<String, File> file : fileSplit.entries()) {
 			final File targetFilename = new File(toDirectory.getAbsolutePath()
-					+ "/" + file.getKey() + "/" + file.getValue().getName());
+					+ pathSeparator + file.getKey() + pathSeparator
+					+ file.getValue().getName());
 			try {
 				FileUtils.copyFile(file.getValue(), targetFilename);
 			} catch (final IOException e) {

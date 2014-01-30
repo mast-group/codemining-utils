@@ -55,6 +55,7 @@ public class StatsUtilTest {
 		listOfNumbers.add(Double.NaN);
 
 		assertEquals(StatsUtil.max(listOfNumbers), 10, 10E-100);
+		assertEquals(StatsUtil.min(listOfNumbers), 1, 10E-100);
 		assertEquals(StatsUtil.mode(listOfNumbers), 10, 10E-100);
 		assertEquals(StatsUtil.median(listOfNumbers), 7.5, 10E-100);
 		assertEquals(StatsUtil.sum(listOfNumbers), Double.NaN, 10E-100);
@@ -74,6 +75,7 @@ public class StatsUtilTest {
 		listOfNumbers.add(100.);
 
 		assertEquals(StatsUtil.max(listOfNumbers), 100, 10E-100);
+		assertEquals(StatsUtil.min(listOfNumbers), -1, 10E-100);
 		assertEquals(StatsUtil.mode(listOfNumbers), 10, 10E-100);
 		assertEquals(StatsUtil.median(listOfNumbers), 5, 10E-100);
 		assertEquals(StatsUtil.sum(listOfNumbers), 127, 10E-100);

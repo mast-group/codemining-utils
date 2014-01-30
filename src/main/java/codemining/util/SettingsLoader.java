@@ -207,7 +207,7 @@ public final class SettingsLoader {
 					fullPropertyName, Boolean.toString(defaultValue)));
 			addToParameterLog(fullPropertyName + "=" + value);
 			return value;
-		} catch (final Exception ex) {
+		} catch (final Exception e) {
 			return defaultValue;
 		}
 	}

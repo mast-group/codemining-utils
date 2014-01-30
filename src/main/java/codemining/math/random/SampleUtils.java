@@ -59,9 +59,9 @@ public class SampleUtils {
 	 */
 	public static int getRandomIndex(final double[] log2ProbWeights) {
 		double max = Double.NEGATIVE_INFINITY;
-		for (final double log2Prob : log2ProbWeights) {
-			if (max < log2Prob) {
-				max = log2Prob;
+		for (final double weight : log2ProbWeights) {
+			if (max < weight) {
+				max = weight;
 			}
 		}
 

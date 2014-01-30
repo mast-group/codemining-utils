@@ -28,7 +28,8 @@ public class ParallelThreadPool {
 	private final ExecutorService threadPool;
 
 	public static final int NUM_THREADS = (int) SettingsLoader
-			.getNumericSetting("nThreads", 10);
+			.getNumericSetting("nThreads", Runtime.getRuntime()
+					.availableProcessors());
 
 	/**
 	 * 

@@ -162,11 +162,11 @@ public class StatsUtil {
 	}
 
 	/**
-	 * Calculates the sum of a Collection
+	 * Calculates the sum of an Array
 	 */
-	public static double sum(double[] array) {
+	public static double sum(final double[] array) {
 		double sum = 0;
-		for (final Double element : array) {
+		for (final double element : array) {
 			sum += element;
 		}
 		return sum;

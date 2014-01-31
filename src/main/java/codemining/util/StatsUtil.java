@@ -50,7 +50,7 @@ public class StatsUtil {
 	 *            Array of values.
 	 * @return The log of the sum of the exponentiated values in the array.
 	 */
-	public static double logSumOfExponentials(final Collection<Double> values) {
+	public static double log2SumOfExponentials(final Collection<Double> values) {
 		if (values.size() == 1) {
 			return values.iterator().next();
 		}

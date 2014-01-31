@@ -161,4 +161,15 @@ public class StatsUtil {
 		return sum;
 	}
 
+	/**
+	 * Calculates the sum of a Collection
+	 */
+	public static double sum(double[] array) {
+		double sum = 0;
+		for (final Double element : array) {
+			sum += element;
+		}
+		return sum;
+	}
+
 }

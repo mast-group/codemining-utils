@@ -172,4 +172,15 @@ public class StatsUtil {
 		return sum;
 	}
 
+	/**
+	 * Calculates the norm of an Array
+	 */
+	public static double norm(final double[] array) {
+		double norm = 0;
+		for (final double element : array) {
+			norm += element * element;
+		}
+		return Math.sqrt(norm);
+	}
+
 }

@@ -183,4 +183,17 @@ public class StatsUtil {
 		return Math.sqrt(norm);
 	}
 
+	/**
+	 * Calculates the max of an Array
+	 */
+	public static double max(final double[] array) {
+		double max = Double.NEGATIVE_INFINITY;
+		for (final double value : array) {
+			if (max < value) {
+				max = value;
+			}
+		}
+		return max;
+	}
+
 }

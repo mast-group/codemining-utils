@@ -164,7 +164,7 @@ public class StatsUtil {
 	/**
 	 * Calculates the sum of an Array
 	 */
-	public static double sum(final double[] array) {
+	public static double sum(final double... array) {
 		double sum = 0;
 		for (final double element : array) {
 			sum += element;
@@ -175,7 +175,7 @@ public class StatsUtil {
 	/**
 	 * Calculates the norm of an Array
 	 */
-	public static double norm(final double[] array) {
+	public static double norm(final double... array) {
 		double norm = 0;
 		for (final double element : array) {
 			norm += element * element;
@@ -186,7 +186,7 @@ public class StatsUtil {
 	/**
 	 * Calculates the max of an Array
 	 */
-	public static double max(final double[] array) {
+	public static double max(final double... array) {
 		double max = Double.NEGATIVE_INFINITY;
 		for (final double value : array) {
 			if (max < value) {

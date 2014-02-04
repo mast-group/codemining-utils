@@ -23,10 +23,10 @@ public class StatsUtilTest {
 
 		listOfNumbers.add(-10.);
 		listOfNumbers.add(-10.);
-		assertEquals(StatsUtil.logSumOfExponentials(listOfNumbers), -9, 10E-100);
+		assertEquals(StatsUtil.log2SumOfExponentials(listOfNumbers), -9, 10E-100);
 
 		listOfNumbers.add(-1000.);
-		assertEquals(StatsUtil.logSumOfExponentials(listOfNumbers), -9, 10E-100);
+		assertEquals(StatsUtil.log2SumOfExponentials(listOfNumbers), -9, 10E-100);
 	}
 
 	@Test

@@ -46,17 +46,17 @@ public class StatsUtil {
 	 * exponentials of 0 and logs of negative infinity. That is, they are
 	 * ignored for the purposes of this computation.
 	 * 
-	 * @param xs
+	 * @param values
 	 *            Array of values.
 	 * @return The log of the sum of the exponentiated values in the array.
 	 */
-	public static double logSumOfExponentials(final Collection<Double> xs) {
-		if (xs.size() == 1) {
-			return xs.iterator().next();
+	public static double log2SumOfExponentials(final Collection<Double> values) {
+		if (values.size() == 1) {
+			return values.iterator().next();
 		}
-		final double max = max(xs);
+		final double max = max(values);
 		double sum = 0.0;
-		for (final double value : xs) {
+		for (final double value : values) {
 			if (value != Double.NEGATIVE_INFINITY) {
 				sum += Math.pow(2, value - max);
 			}
@@ -74,12 +74,12 @@ public class StatsUtil {
 	/**
 	 * Retrieve the max element
 	 * 
-	 * @param xs
+	 * @param values
 	 * @return
 	 */
-	public static double max(final Collection<Double> xs) {
+	public static double max(final Collection<Double> values) {
 		double max = Double.NEGATIVE_INFINITY;
-		for (final double value : xs) {
+		for (final double value : values) {
 			if (max < value) {
 				max = value;
 			}
@@ -106,22 +106,22 @@ public class StatsUtil {
 	/**
 	 * Calculates the mean of a Collection
 	 */
-	public static double mean(final Collection<Double> array) {
-		return sum(array) / array.size();
+	public static double mean(final Collection<Double> values) {
+		return sum(values) / values.size();
 	}
 
 	/**
 	 * Calculates the median of a List
 	 */
-	public static double median(final List<Double> array) {
+	public static double median(final List<Double> values) {
 
-		Collections.sort(array);
+		Collections.sort(values);
 
-		final int middle = array.size() / 2;
-		if (array.size() % 2 == 1) {
-			return array.get(middle);
+		final int middle = values.size() / 2;
+		if (values.size() % 2 == 1) {
+			return values.get(middle);
 		} else {
-			return (array.get(middle - 1) + array.get(middle)) / 2.0;
+			return (values.get(middle - 1) + values.get(middle)) / 2.0;
 		}
 
 	}
@@ -129,14 +129,14 @@ public class StatsUtil {
 	/**
 	 * Calculates the mode of a Collection
 	 */
-	public static double mode(final Collection<Double> array) {
+	public static double mode(final Collection<Double> values) {
 
 		double maxValue = 0;
 		int maxCount = 0;
 
-		for (final Double elementA : array) {
+		for (final Double elementA : values) {
 			int count = 0;
-			for (final Double elementB : array) {
+			for (final Double elementB : values) {
 				if (elementB.equals(elementA)) {
 					++count;
 				}
@@ -153,9 +153,9 @@ public class StatsUtil {
 	/**
 	 * Calculates the sum of a Collection
 	 */
-	public static double sum(final Iterable<Double> array) {
+	public static double sum(final Iterable<Double> values) {
 		double sum = 0;
-		for (final Double element : array) {
+		for (final Double element : values) {
 			sum += element;
 		}
 		return sum;

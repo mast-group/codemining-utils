@@ -32,14 +32,14 @@ public class StatsUtilTest {
 	@Test
 	public void testLogSumExpSimple() {
 		final double log2prob = -1000;
-		assertEquals(StatsUtil.logSumOfExponentials(log2prob, log2prob), -999,
+		assertEquals(StatsUtil.log2SumOfExponentials(log2prob, log2prob), -999,
 				10E-100);
 
 		final double log2prob2 = -10000;
-		assertEquals(StatsUtil.logSumOfExponentials(log2prob2, log2prob2),
+		assertEquals(StatsUtil.log2SumOfExponentials(log2prob2, log2prob2),
 				-9999, 10E-100);
 
-		assertEquals(StatsUtil.logSumOfExponentials(log2prob, log2prob2),
+		assertEquals(StatsUtil.log2SumOfExponentials(log2prob, log2prob2),
 				-1000, 10E-10);
 	}
 

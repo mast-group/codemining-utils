@@ -13,6 +13,8 @@ import com.google.common.math.DoubleMath;
 
 public class StatsUtil {
 
+	private static final double LN_2 = Math.log(2);
+
 	/**
 	 * Code ported from LingPipe This method returns the log of the sum of the
 	 * natural exponentiated values in the specified array. Mathematically, the
@@ -64,11 +66,25 @@ public class StatsUtil {
 		return max + DoubleMath.log2(sum);
 	}
 
-	public static double logSumOfExponentials(final double elem1,
-			final double elem2) {
-		final double max = Math.max(elem1, elem2);
-		final double sum = Math.pow(2, elem1 - max) + Math.pow(2, elem2 - max);
-		return max + DoubleMath.log2(sum);
+	public static double log2SumOfExponentials(final double log2Prob1,
+			final double log2Prob2) {
+		final double max;
+		final double min;
+		if (log2Prob1 > log2Prob2) {
+			max = log2Prob1;
+			min = log2Prob2;
+		} else {
+			max = log2Prob2;
+			min = log2Prob1;
+		}
+		final double diff = min - max;
+		if (diff < -54) {
+			// 1. + Math.pow(2, diff) would return 1 and thus we avoid the
+			// computation
+			return max;
+		} else {
+			return max + (Math.log1p(Math.pow(2, diff)) / LN_2);
+		}
 	}
 
 	/**
@@ -88,19 +104,16 @@ public class StatsUtil {
 	}
 
 	/**
-	 * Retrieve the min element
-	 * 
-	 * @param xs
-	 * @return
+	 * Calculates the max of an Array
 	 */
-	public static double min(final Collection<Double> xs) {
-		double min = Double.POSITIVE_INFINITY;
-		for (final double value : xs) {
-			if (min > value) {
-				min = value;
+	public static double max(final double... array) {
+		double max = Double.NEGATIVE_INFINITY;
+		for (final double value : array) {
+			if (max < value) {
+				max = value;
 			}
 		}
-		return min;
+		return max;
 	}
 
 	/**
@@ -124,6 +137,22 @@ public class StatsUtil {
 			return (values.get(middle - 1) + values.get(middle)) / 2.0;
 		}
 
+	}
+
+	/**
+	 * Retrieve the min element
+	 * 
+	 * @param xs
+	 * @return
+	 */
+	public static double min(final Collection<Double> xs) {
+		double min = Double.POSITIVE_INFINITY;
+		for (final double value : xs) {
+			if (min > value) {
+				min = value;
+			}
+		}
+		return min;
 	}
 
 	/**
@@ -151,14 +180,14 @@ public class StatsUtil {
 	}
 
 	/**
-	 * Calculates the sum of a Collection
+	 * Calculates the norm of an Array
 	 */
-	public static double sum(final Iterable<Double> values) {
-		double sum = 0;
-		for (final Double element : values) {
-			sum += element;
+	public static double norm(final double... array) {
+		double norm = 0;
+		for (final double element : array) {
+			norm += element * element;
 		}
-		return sum;
+		return Math.sqrt(norm);
 	}
 
 	/**
@@ -173,27 +202,14 @@ public class StatsUtil {
 	}
 
 	/**
-	 * Calculates the norm of an Array
+	 * Calculates the sum of a Collection
 	 */
-	public static double norm(final double... array) {
-		double norm = 0;
-		for (final double element : array) {
-			norm += element * element;
+	public static double sum(final Iterable<Double> values) {
+		double sum = 0;
+		for (final Double element : values) {
+			sum += element;
 		}
-		return Math.sqrt(norm);
-	}
-
-	/**
-	 * Calculates the max of an Array
-	 */
-	public static double max(final double... array) {
-		double max = Double.NEGATIVE_INFINITY;
-		for (final double value : array) {
-			if (max < value) {
-				max = value;
-			}
-		}
-		return max;
+		return sum;
 	}
 
 }

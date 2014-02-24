@@ -3,6 +3,8 @@
  */
 package codemining.util.parallel;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -58,6 +60,8 @@ public class ParallelThreadPool {
 	 * @param task
 	 */
 	public void pushTask(final Runnable task) {
+		checkArgument(!threadPool.isShutdown(),
+				"Cannot submit task to thread pool that has already been shutdown.");
 		threadPool.execute(task);
 	}
 

@@ -117,6 +117,35 @@ public class StatsUtil {
 	}
 
 	/**
+	 * Retrieve the min element
+	 * 
+	 * @param xs
+	 * @return
+	 */
+	public static double min(final Collection<Double> xs) {
+		double min = Double.POSITIVE_INFINITY;
+		for (final double value : xs) {
+			if (min > value) {
+				min = value;
+			}
+		}
+		return min;
+	}
+
+	/**
+	 * Calculates the min of an Array
+	 */
+	public static double min(final double... array) {
+		double min = Double.POSITIVE_INFINITY;
+		for (final double value : array) {
+			if (min > value) {
+				min = value;
+			}
+		}
+		return min;
+	}
+
+	/**
 	 * Calculates the mean of a Collection
 	 */
 	public static double mean(final Collection<Double> values) {
@@ -137,22 +166,6 @@ public class StatsUtil {
 			return (values.get(middle - 1) + values.get(middle)) / 2.0;
 		}
 
-	}
-
-	/**
-	 * Retrieve the min element
-	 * 
-	 * @param xs
-	 * @return
-	 */
-	public static double min(final Collection<Double> xs) {
-		double min = Double.POSITIVE_INFINITY;
-		for (final double value : xs) {
-			if (min > value) {
-				min = value;
-			}
-		}
-		return min;
 	}
 
 	/**

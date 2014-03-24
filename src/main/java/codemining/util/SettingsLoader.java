@@ -151,8 +151,7 @@ public final class SettingsLoader {
 	private SettingsLoader() {
 		properties = new Properties();
 		try {
-			parametrizationWriter = new PrintWriter(PARAMETER_LOG_FILE,
-					"UTF-8");
+			parametrizationWriter = new PrintWriter(PARAMETER_LOG_FILE, "UTF-8");
 			loadProperties("default.properties");
 			addToParameterLog("Loaded default.properties at " + (new Date()));
 		} catch (final FileNotFoundException e) {
@@ -176,8 +175,7 @@ public final class SettingsLoader {
 		properties = new Properties();
 		try {
 			loadProperties(file);
-			parametrizationWriter = new PrintWriter(PARAMETER_LOG_FILE,
-					"UTF-8");
+			parametrizationWriter = new PrintWriter(PARAMETER_LOG_FILE, "UTF-8");
 		} catch (final FileNotFoundException e) {
 			LOGGER.info("Configuration file not found. Loading defaults.");
 		}
@@ -231,7 +229,7 @@ public final class SettingsLoader {
 		} catch (final ClassNotFoundException e) {
 			LOGGER.severe("Failed to find class " + classFullName);
 		}
-		final String[] splitName = classFullName.split(".");
+		final String[] splitName = classFullName.split("\\.");
 		return splitName[splitName.length - 1] + "." + basePropertyName;
 	}
 
@@ -289,8 +287,11 @@ public final class SettingsLoader {
 	 */
 	private void loadProperties(final String filename) throws IOException {
 		final FileInputStream input = new FileInputStream(filename);
-		properties.load(input);
-		LOGGER.info("Loaded properties file " + filename);
-		input.close();
+		try {
+			properties.load(input);
+			LOGGER.info("Loaded properties file " + filename);
+		} finally {
+			input.close();
+		}
 	}
 }

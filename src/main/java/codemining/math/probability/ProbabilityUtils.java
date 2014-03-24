@@ -53,7 +53,6 @@ public class ProbabilityUtils {
 			final IDiscreteConditionalProbability<A, B> cpd1,
 			final IDiscreteConditionalProbability<A, B> cpd2) {
 		final Set<B> support1 = cpd1.getPossibleContexts();
-		final Set<B> support2 = cpd2.getPossibleContexts();
 
 		for (final B context : support1) {
 			final Optional<A> ml1 = cpd1.getMaximumLikelihoodElement(context);

@@ -128,15 +128,29 @@ public class SampleUtils {
 	public static <K, T> Multimap<K, T> randomPartition(
 			final Map<T, Double> elementWeights,
 			final Map<K, Double> partitionWeights) {
+		final List<Entry<T, Double>> elements = Lists
+				.newArrayList(elementWeights.entrySet());
+		Collections.shuffle(elements);
+
+		return randomPartitionGivenOrder(elementWeights, partitionWeights,
+				elements);
+	}
+
+	/**
+	 * @param elementWeights
+	 * @param partitionWeights
+	 * @param orderedElements
+	 * @return
+	 */
+	public static <K, T> Multimap<K, T> randomPartitionGivenOrder(
+			final Map<T, Double> elementWeights,
+			final Map<K, Double> partitionWeights,
+			final List<Entry<T, Double>> orderedElements) {
 		final Multimap<K, T> partitions = HashMultimap.create();
 
 		final double elementWeightSum = StatsUtil.sum(elementWeights.values());
 		final double partitionWeightSum = StatsUtil.sum(partitionWeights
 				.values());
-
-		final List<Entry<T, Double>> elements = Lists
-				.newArrayList(elementWeights.entrySet());
-		Collections.shuffle(elements);
 
 		final List<Entry<K, Double>> partitionList = Lists
 				.newArrayList(partitionWeights.entrySet());
@@ -145,12 +159,14 @@ public class SampleUtils {
 		double currentElementSum = 0;
 		double currentPartitionSum = 0;
 
-		for (int currentElementIdx = 0; currentElementIdx < elements.size(); currentElementIdx++) {
+		for (int currentElementIdx = 0; currentElementIdx < orderedElements
+				.size(); currentElementIdx++) {
 			double partitionRandomPoint = (currentPartitionSum + partitionList
 					.get(currentPartitionIdx).getValue()) / partitionWeightSum;
 			final double elementRandomPoint = currentElementSum
 					/ elementWeightSum;
-			currentElementSum += elements.get(currentElementIdx).getValue();
+			currentElementSum += orderedElements.get(currentElementIdx)
+					.getValue();
 
 			while (partitionRandomPoint <= elementRandomPoint) {
 				currentPartitionSum += partitionList.get(currentPartitionIdx)
@@ -161,7 +177,7 @@ public class SampleUtils {
 						/ partitionWeightSum;
 			}
 			partitions.put(partitionList.get(currentPartitionIdx).getKey(),
-					elements.get(currentElementIdx).getKey());
+					orderedElements.get(currentElementIdx).getKey());
 		}
 
 		return partitions;

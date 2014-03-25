@@ -39,8 +39,7 @@ public class SampleUtils {
 
 		T selected = null;
 		int i = 0;
-		for (final com.google.common.collect.Multiset.Entry<T> entry : set
-				.entrySet()) {
+		for (final Multiset.Entry<T> entry : set.entrySet()) {
 			i += entry.getCount();
 			if (i > randPos) {
 				selected = entry.getElement();

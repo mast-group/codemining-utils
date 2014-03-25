@@ -60,8 +60,7 @@ public class SmoothedDiscreteConditionalDistribution<A extends Comparable<A>, B 
 		final int[] countOfCounts = new int[KATZ_MAX_COUNT + 1];
 		Arrays.fill(countOfCounts, 0);
 
-		for (final com.google.common.collect.Multiset.Entry<A> entry : values
-				.entrySet()) {
+		for (final Multiset.Entry<A> entry : values.entrySet()) {
 			final int count = entry.getCount();
 			if (count <= countOfCounts.length) {
 				countOfCounts[count - 1]++;
@@ -86,8 +85,7 @@ public class SmoothedDiscreteConditionalDistribution<A extends Comparable<A>, B 
 		final Map<A, Double> smoothedProbs = Maps.newTreeMap();
 		table.put(key, smoothedProbs);
 
-		for (final com.google.common.collect.Multiset.Entry<A> entry : values
-				.entrySet()) {
+		for (final Multiset.Entry<A> entry : values.entrySet()) {
 			final int count = entry.getCount();
 			final double mlProbability = ((double) count) / values.size();
 			if (count > KATZ_MAX_COUNT) {

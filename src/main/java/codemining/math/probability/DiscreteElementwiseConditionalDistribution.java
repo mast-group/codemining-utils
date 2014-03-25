@@ -78,8 +78,7 @@ public class DiscreteElementwiseConditionalDistribution<A extends Comparable<A>,
 		}
 		int maxCount = 0;
 		A maxLi = null;
-		for (final com.google.common.collect.Multiset.Entry<A> entry : table
-				.get(given).entrySet()) {
+		for (final Multiset.Entry<A> entry : table.get(given).entrySet()) {
 			if (maxCount < entry.getCount()) {
 				maxCount = entry.getCount();
 				maxLi = entry.getElement();

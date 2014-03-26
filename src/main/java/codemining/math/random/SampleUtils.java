@@ -131,7 +131,7 @@ public class SampleUtils {
 				.newArrayList(elementWeights.entrySet());
 		Collections.shuffle(elements);
 
-		return randomPartitionGivenOrder(elementWeights, partitionWeights,
+		return partitionGivenOrder(elementWeights, partitionWeights,
 				elements);
 	}
 
@@ -141,7 +141,7 @@ public class SampleUtils {
 	 * @param orderedElements
 	 * @return
 	 */
-	public static <K, T> Multimap<K, T> randomPartitionGivenOrder(
+	public static <K, T> Multimap<K, T> partitionGivenOrder(
 			final Map<T, Double> elementWeights,
 			final Map<K, Double> partitionWeights,
 			final List<Entry<T, Double>> orderedElements) {
@@ -162,12 +162,12 @@ public class SampleUtils {
 				.size(); currentElementIdx++) {
 			double partitionRandomPoint = (currentPartitionSum + partitionList
 					.get(currentPartitionIdx).getValue()) / partitionWeightSum;
-			final double elementRandomPoint = currentElementSum
+			final double elementWeightPoint = currentElementSum
 					/ elementWeightSum;
 			currentElementSum += orderedElements.get(currentElementIdx)
 					.getValue();
 
-			while (partitionRandomPoint <= elementRandomPoint) {
+			while (partitionRandomPoint <= elementWeightPoint) {
 				currentPartitionSum += partitionList.get(currentPartitionIdx)
 						.getValue();
 				currentPartitionIdx++;

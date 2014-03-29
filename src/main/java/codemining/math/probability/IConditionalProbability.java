@@ -11,7 +11,16 @@ import com.google.common.base.Optional;
  * @param <A>
  * @param <B>
  */
-public interface IConditionalProbability<A extends Comparable<A>, B extends Comparable<B>> {
+public interface IConditionalProbability<A, B> {
+
+	/**
+	 * Return the maximum likelihood element for the given element.
+	 * 
+	 * @param given
+	 * @return the maximum likelihood element for the given. If the given does
+	 *         not exist an empty optional is returned.
+	 */
+	public Optional<A> getMaximumLikelihoodElement(B given);
 
 	/**
 	 * Return the maximum likelihood (unsmoothed) probability for an element
@@ -23,14 +32,5 @@ public interface IConditionalProbability<A extends Comparable<A>, B extends Comp
 	 * @return
 	 */
 	public double getMLProbability(A element, B given);
-
-	/**
-	 * Return the maximum likelihood element for the given element.
-	 * 
-	 * @param given
-	 * @return the maximum likelihood element for the given. If the given does
-	 *         not exist an empty optional is returned.
-	 */
-	public Optional<A> getMaximumLikelihoodElement(B given);
 
 }

@@ -4,6 +4,7 @@
 package codemining.util;
 
 import java.util.Set;
+import java.util.SortedSet;
 
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
@@ -36,6 +37,27 @@ public class CollectionUtil {
 			toKeep.add(entry.getElement());
 		}
 		return toKeep;
+	}
+
+	/**
+	 * Return the top elements of a sorted set.
+	 * 
+	 * @param originalSet
+	 * @param nTopElements
+	 * @return
+	 */
+	public static <T extends Comparable<T>> SortedSet<T> getTopElements(
+			final SortedSet<T> originalSet, final int nTopElements) {
+		final SortedSet<T> filteredElements = Sets.newTreeSet();
+		int i = 0;
+		for (final T element : originalSet) {
+			if (i > nTopElements) {
+				break;
+			}
+			filteredElements.add(element);
+			i++;
+		}
+		return filteredElements;
 	}
 
 }

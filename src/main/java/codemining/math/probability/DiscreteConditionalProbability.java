@@ -57,7 +57,7 @@ public class DiscreteConditionalProbability<A extends Comparable<A>, B extends C
 		if (!table.containsKey(given)) {
 			return Optional.absent();
 		}
-		final A sample = SampleUtils.getRandomIndex(table.get(given));
+		final A sample = SampleUtils.getRandomKey(table.get(given));
 		return Optional.of(sample);
 	}
 

@@ -91,7 +91,7 @@ public class SampleUtils {
 	 * @param log2ProbWeights
 	 * @return
 	 */
-	public static <T> T getRandomIndex(final Map<T, Double> log2ProbWeights) {
+	public static <T> T getRandomKey(final Map<T, Double> log2ProbWeights) {
 		final double max = StatsUtil.max(log2ProbWeights.values());
 
 		final Map<T, Double> weights = Maps.newHashMap();

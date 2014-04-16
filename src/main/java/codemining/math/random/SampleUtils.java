@@ -14,7 +14,7 @@ import org.apache.commons.lang.math.RandomUtils;
 
 import codemining.util.StatsUtil;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -116,6 +116,54 @@ public class SampleUtils {
 	}
 
 	/**
+	 * @param elementWeights
+	 * @param partitionWeights
+	 * @param orderedElements
+	 * @return
+	 */
+	public static <K, T> Multimap<K, T> partitionGivenOrder(
+			final Map<T, Double> elementWeights,
+			final Map<K, Double> partitionWeights,
+			final List<Entry<T, Double>> orderedElements) {
+		final Multimap<K, T> partitions = ArrayListMultimap.create();
+
+		final double elementWeightSum = StatsUtil.sum(elementWeights.values());
+		final double partitionWeightSum = StatsUtil.sum(partitionWeights
+				.values());
+
+		final List<Entry<K, Double>> partitionList = Lists
+				.newArrayList(partitionWeights.entrySet());
+
+		int currentPartitionIdx = 0;
+		double currentElementSum = 0;
+		double currentPartitionSum = 0;
+
+		for (int currentElementIdx = 0; currentElementIdx < orderedElements
+				.size(); currentElementIdx++) {
+			double partitionPoint = (currentPartitionSum + partitionList.get(
+					currentPartitionIdx).getValue())
+					/ partitionWeightSum;
+			final double elementWeightPoint = currentElementSum
+					/ elementWeightSum;
+			currentElementSum += orderedElements.get(currentElementIdx)
+					.getValue();
+
+			while (partitionPoint <= elementWeightPoint) {
+				currentPartitionSum += partitionList.get(currentPartitionIdx)
+						.getValue();
+				currentPartitionIdx++;
+				partitionPoint = (currentPartitionSum + partitionList.get(
+						currentPartitionIdx).getValue())
+						/ partitionWeightSum;
+			}
+			partitions.put(partitionList.get(currentPartitionIdx).getKey(),
+					orderedElements.get(currentElementIdx).getKey());
+		}
+
+		return partitions;
+	}
+
+	/**
 	 * Partition the elements T in partition, whose relative size is given
 	 * approximately by partitionWeights. Here we do a best effort to match the
 	 * weights.
@@ -131,55 +179,7 @@ public class SampleUtils {
 				.newArrayList(elementWeights.entrySet());
 		Collections.shuffle(elements);
 
-		return partitionGivenOrder(elementWeights, partitionWeights,
-				elements);
-	}
-
-	/**
-	 * @param elementWeights
-	 * @param partitionWeights
-	 * @param orderedElements
-	 * @return
-	 */
-	public static <K, T> Multimap<K, T> partitionGivenOrder(
-			final Map<T, Double> elementWeights,
-			final Map<K, Double> partitionWeights,
-			final List<Entry<T, Double>> orderedElements) {
-		final Multimap<K, T> partitions = HashMultimap.create();
-
-		final double elementWeightSum = StatsUtil.sum(elementWeights.values());
-		final double partitionWeightSum = StatsUtil.sum(partitionWeights
-				.values());
-
-		final List<Entry<K, Double>> partitionList = Lists
-				.newArrayList(partitionWeights.entrySet());
-
-		int currentPartitionIdx = 0;
-		double currentElementSum = 0;
-		double currentPartitionSum = 0;
-
-		for (int currentElementIdx = 0; currentElementIdx < orderedElements
-				.size(); currentElementIdx++) {
-			double partitionRandomPoint = (currentPartitionSum + partitionList
-					.get(currentPartitionIdx).getValue()) / partitionWeightSum;
-			final double elementWeightPoint = currentElementSum
-					/ elementWeightSum;
-			currentElementSum += orderedElements.get(currentElementIdx)
-					.getValue();
-
-			while (partitionRandomPoint <= elementWeightPoint) {
-				currentPartitionSum += partitionList.get(currentPartitionIdx)
-						.getValue();
-				currentPartitionIdx++;
-				partitionRandomPoint = (currentPartitionSum + partitionList
-						.get(currentPartitionIdx).getValue())
-						/ partitionWeightSum;
-			}
-			partitions.put(partitionList.get(currentPartitionIdx).getKey(),
-					orderedElements.get(currentElementIdx).getKey());
-		}
-
-		return partitions;
+		return partitionGivenOrder(elementWeights, partitionWeights, elements);
 	}
 
 	private SampleUtils() {

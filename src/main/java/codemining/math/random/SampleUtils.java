@@ -116,6 +116,15 @@ public class SampleUtils {
 	}
 
 	/**
+	 * Partition a set of elements into different weight bins (defined by
+	 * partitionWeights), where each element has a weight defined by
+	 * elementWeights. The order with which the partition is made is given by
+	 * orderedElements.
+	 * 
+	 * This method sequentially adds elements into bins until the bin weight has
+	 * been fully filled. No guarantees are given about how accurate the binning
+	 * will be, since this is not an optimization algorithm.
+	 * 
 	 * @param elementWeights
 	 * @param partitionWeights
 	 * @param orderedElements

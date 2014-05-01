@@ -55,7 +55,7 @@ public class CollectionUtil {
 		final SortedSet<T> filteredElements = Sets.newTreeSet();
 		int i = 0;
 		for (final T element : originalSet) {
-			if (i > nTopElements) {
+			if (i >= nTopElements) {
 				break;
 			}
 			filteredElements.add(element);

@@ -9,9 +9,9 @@ import java.util.TreeMap;
 import codemining.math.random.SampleUtils;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
-import com.google.common.collect.TreeMultiset;
 
 /**
  * A discrete conditional distribution table. Models P(A|B).
@@ -19,8 +19,8 @@ import com.google.common.collect.TreeMultiset;
  * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
  * 
  */
-public class DiscreteElementwiseConditionalDistribution<A extends Comparable<A>, B extends Comparable<B>>
-		implements ISamplableConditionalProbability<A, B>,
+public class DiscreteElementwiseConditionalDistribution<A, B> implements
+		ISamplableConditionalProbability<A, B>,
 		IDiscreteConditionalProbability<A, B> {
 
 	/**
@@ -46,7 +46,7 @@ public class DiscreteElementwiseConditionalDistribution<A extends Comparable<A>,
 		final Multiset<A> elements;
 
 		if (!table.containsKey(given)) {
-			elements = TreeMultiset.create();
+			elements = HashMultiset.create();
 			table.put(given, elements);
 		} else {
 			elements = table.get(given);

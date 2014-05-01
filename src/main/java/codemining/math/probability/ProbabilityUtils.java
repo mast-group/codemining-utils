@@ -23,7 +23,7 @@ public class ProbabilityUtils {
 	 * @param cpd2
 	 * @return
 	 */
-	public static <A extends Comparable<A>, B extends Comparable<B>> boolean conditionalProbabiltiesEquivalentInML(
+	public static <A, B> boolean conditionalProbabiltiesEquivalentInML(
 			final IDiscreteConditionalProbability<A, B> cpd1,
 			final IDiscreteConditionalProbability<A, B> cpd2) {
 		final Set<B> support1 = cpd1.getPossibleContexts();
@@ -49,7 +49,7 @@ public class ProbabilityUtils {
 	 * @param cpd1
 	 * @param cpd2
 	 */
-	public static <A extends Comparable<A>, B extends Comparable<B>> void printClusterDifferences(
+	public static <A, B> void printClusterDifferences(
 			final IDiscreteConditionalProbability<A, B> cpd1,
 			final IDiscreteConditionalProbability<A, B> cpd2) {
 		final Set<B> support1 = cpd1.getPossibleContexts();

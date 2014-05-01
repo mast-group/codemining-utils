@@ -19,8 +19,8 @@ import com.google.common.base.Optional;
  * @param <A>
  * @param <B>
  */
-public class DiscreteConditionalProbability<A extends Comparable<A>, B extends Comparable<B>>
-		implements ISamplableConditionalProbability<A, B>,
+public class DiscreteConditionalProbability<A, B> implements
+		ISamplableConditionalProbability<A, B>,
 		IDiscreteConditionalProbability<A, B> {
 
 	/**
@@ -33,7 +33,7 @@ public class DiscreteConditionalProbability<A extends Comparable<A>, B extends C
 	}
 
 	@Override
-	public Optional<A> getMaximumLikelihoodElement(B given) {
+	public Optional<A> getMaximumLikelihoodElement(final B given) {
 		if (!table.containsKey(given)) {
 			return Optional.absent();
 		}
@@ -53,15 +53,6 @@ public class DiscreteConditionalProbability<A extends Comparable<A>, B extends C
 	}
 
 	@Override
-	public Optional<A> getRandomSample(final B given) {
-		if (!table.containsKey(given)) {
-			return Optional.absent();
-		}
-		final A sample = SampleUtils.getRandomKey(table.get(given));
-		return Optional.of(sample);
-	}
-
-	@Override
 	public double getMLProbability(final A element, final B given) {
 		if (!table.containsKey(given)) {
 			return 1;
@@ -76,6 +67,15 @@ public class DiscreteConditionalProbability<A extends Comparable<A>, B extends C
 	@Override
 	public Set<B> getPossibleContexts() {
 		return Collections.unmodifiableSet(table.keySet());
+	}
+
+	@Override
+	public Optional<A> getRandomSample(final B given) {
+		if (!table.containsKey(given)) {
+			return Optional.absent();
+		}
+		final A sample = SampleUtils.getRandomKey(table.get(given));
+		return Optional.of(sample);
 	}
 
 }

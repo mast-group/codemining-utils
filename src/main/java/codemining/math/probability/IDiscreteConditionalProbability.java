@@ -12,8 +12,8 @@ import java.util.Set;
  * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
  * 
  */
-public interface IDiscreteConditionalProbability<A extends Comparable<A>, B extends Comparable<B>>
-		extends IConditionalProbability<A, B> {
+public interface IDiscreteConditionalProbability<A, B> extends
+		IConditionalProbability<A, B> {
 
 	/**
 	 * Returns the set of all possible contexts (given's) in P(A|B)

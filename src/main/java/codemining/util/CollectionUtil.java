@@ -3,12 +3,16 @@
  */
 package codemining.util;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
+import com.google.common.base.Functions;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
 /**
@@ -58,6 +62,24 @@ public class CollectionUtil {
 			i++;
 		}
 		return filteredElements;
+	}
+
+	/** Sort map by value (lowest first) */
+	public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sortMapByValueAscending(
+			final Map<K, V> map) {
+		final Ordering<K> valueThenKeyComparator = Ordering.natural()
+				.onResultOf(Functions.forMap(map))
+				.compound(Ordering.<K> natural());
+		return ImmutableSortedMap.copyOf(map, valueThenKeyComparator);
+	}
+
+	/** Sort map by value (highest first) */
+	public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sortMapByValueDescending(
+			final Map<K, V> map) {
+		final Ordering<K> valueThenKeyComparator = Ordering.natural().reverse()
+				.onResultOf(Functions.forMap(map))
+				.compound(Ordering.<K> natural().reverse());
+		return ImmutableSortedMap.copyOf(map, valueThenKeyComparator);
 	}
 
 }

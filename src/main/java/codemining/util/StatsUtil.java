@@ -8,6 +8,8 @@ package codemining.util;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.math.DoubleMath;
 
@@ -117,6 +119,29 @@ public class StatsUtil {
 	}
 
 	/**
+	 * Calculates the mean of a Collection
+	 */
+	public static double mean(final Collection<Double> values) {
+		return sum(values) / values.size();
+	}
+
+	/**
+	 * Calculates the median of a List
+	 */
+	public static double median(final List<Double> values) {
+
+		Collections.sort(values);
+
+		final int middle = values.size() / 2;
+		if (values.size() % 2 == 1) {
+			return values.get(middle);
+		} else {
+			return (values.get(middle - 1) + values.get(middle)) / 2.0;
+		}
+
+	}
+
+	/**
 	 * Retrieve the min element
 	 * 
 	 * @param xs
@@ -143,29 +168,6 @@ public class StatsUtil {
 			}
 		}
 		return min;
-	}
-
-	/**
-	 * Calculates the mean of a Collection
-	 */
-	public static double mean(final Collection<Double> values) {
-		return sum(values) / values.size();
-	}
-
-	/**
-	 * Calculates the median of a List
-	 */
-	public static double median(final List<Double> values) {
-
-		Collections.sort(values);
-
-		final int middle = values.size() / 2;
-		if (values.size() % 2 == 1) {
-			return values.get(middle);
-		} else {
-			return (values.get(middle - 1) + values.get(middle)) / 2.0;
-		}
-
 	}
 
 	/**
@@ -201,6 +203,20 @@ public class StatsUtil {
 			norm += element * element;
 		}
 		return Math.sqrt(norm);
+	}
+
+	/**
+	 * Normalize the given probabilities
+	 * 
+	 * @param memebrshipPcts
+	 */
+	public static <T> void normalizeLog2Probs(final Map<T, Double> log2prob) {
+		final double sum = log2SumOfExponentials(log2prob.values());
+
+		for (final Entry<T, Double> entry : log2prob.entrySet()) {
+			entry.setValue(Math.pow(2, entry.getValue() - sum));
+		}
+
 	}
 
 	/**

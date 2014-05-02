@@ -7,6 +7,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,27 +31,6 @@ import com.google.common.collect.Multiset;
 public class SampleUtils {
 
 	/**
-	 * Get a uniformly random element from a Multiset.
-	 * 
-	 * @param set
-	 * @return
-	 */
-	public static <T> T getRandomElement(final Multiset<T> set) {
-		final int randPos = RandomUtils.nextInt(checkNotNull(set).size());
-
-		T selected = null;
-		int i = 0;
-		for (final Multiset.Entry<T> entry : set.entrySet()) {
-			i += entry.getCount();
-			if (i > randPos) {
-				selected = entry.getElement();
-				break;
-			}
-		}
-		return selected;
-	}
-
-	/**
 	 * Get a uniformly random element from a Collection.
 	 * 
 	 * @param collection
@@ -68,6 +48,27 @@ public class SampleUtils {
 				break;
 			}
 			index++;
+		}
+		return selected;
+	}
+
+	/**
+	 * Get a uniformly random element from a Multiset.
+	 * 
+	 * @param set
+	 * @return
+	 */
+	public static <T> T getRandomElement(final Multiset<T> set) {
+		final int randPos = RandomUtils.nextInt(checkNotNull(set).size());
+
+		T selected = null;
+		int i = 0;
+		for (final Multiset.Entry<T> entry : set.entrySet()) {
+			i += entry.getCount();
+			if (i > randPos) {
+				selected = entry.getElement();
+				break;
+			}
 		}
 		return selected;
 	}
@@ -117,7 +118,7 @@ public class SampleUtils {
 	public static <T> T getRandomKey(final Map<T, Double> log2ProbWeights) {
 		final double max = StatsUtil.max(log2ProbWeights.values());
 
-		final Map<T, Double> weights = Maps.newHashMap();
+		final IdentityHashMap<T, Double> weights = Maps.newIdentityHashMap();
 		double sum = 0;
 
 		for (final Entry<T, Double> entry : log2ProbWeights.entrySet()) {

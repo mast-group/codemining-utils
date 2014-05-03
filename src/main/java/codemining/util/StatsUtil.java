@@ -206,7 +206,7 @@ public class StatsUtil {
 	}
 
 	/**
-	 * Normalize the given probabilities
+	 * Normalize the given probabilities in place.
 	 * 
 	 * @param memebrshipPcts
 	 */

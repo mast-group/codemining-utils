@@ -11,11 +11,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.base.Optional;
 import com.google.common.math.DoubleMath;
 
 public class StatsUtil {
 
 	private static final double LN_2 = Math.log(2);
+
+	/**
+	 * Return the element with the maximum value in the map.
+	 * 
+	 * @param valuedObjects
+	 * @return
+	 */
+	public static <T> Optional<T> argmax(final Map<T, Double> valuedObjects) {
+		double max = Double.NEGATIVE_INFINITY;
+		T maxElement = null;
+		for (final Entry<T, Double> entry : valuedObjects.entrySet()) {
+			if (max < entry.getValue()) {
+				max = entry.getValue();
+				maxElement = entry.getKey();
+			}
+		}
+		if (maxElement != null) {
+			return Optional.of(maxElement);
+		} else {
+			return Optional.absent();
+		}
+	}
 
 	/**
 	 * Code ported from LingPipe This method returns the log of the sum of the

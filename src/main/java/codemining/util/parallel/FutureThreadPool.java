@@ -47,6 +47,14 @@ public class FutureThreadPool {
 	}
 
 	/**
+	 * @param nThreads
+	 *            number of parallel threads to use.
+	 */
+	public FutureThreadPool(final int nThreads) {
+		threadPool = Executors.newFixedThreadPool(nThreads);
+	}
+
+	/**
 	 * Interrupt the execution of any future tasks, returning tasks that have
 	 * been interrupted.
 	 */
@@ -75,7 +83,7 @@ public class FutureThreadPool {
 		futures.add(threadPool.submit(task));
 	}
 
-	public <T> void putCompletedTasks(Collection<T> outputs) {
+	public <T> void putCompletedTasks(final Collection<T> outputs) {
 		threadPool.shutdown();
 		try {
 			threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
@@ -83,7 +91,7 @@ public class FutureThreadPool {
 			LOGGER.warning("Thread Pool Interrupted "
 					+ ExceptionUtils.getFullStackTrace(e));
 		}
-		for (Future<?> future : futures) {
+		for (final Future<?> future : futures) {
 			try {
 				outputs.add((T) future.get());
 			} catch (InterruptedException | ExecutionException e) {

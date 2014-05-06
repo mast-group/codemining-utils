@@ -56,6 +56,25 @@ public class FutureThreadPool<T> {
 		threadPool = Executors.newFixedThreadPool(nThreads);
 	}
 
+	public List<T> getCompletedTasks() {
+		threadPool.shutdown();
+		try {
+			threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		} catch (final InterruptedException e) {
+			LOGGER.warning("Thread Pool Interrupted "
+					+ ExceptionUtils.getFullStackTrace(e));
+		}
+		final List<T> outputs = Lists.newArrayList();
+		for (final Future<T> future : futures) {
+			try {
+				outputs.add(future.get());
+			} catch (InterruptedException | ExecutionException e) {
+				LOGGER.warning(ExceptionUtils.getFullStackTrace(e));
+			}
+		}
+		return outputs;
+	}
+
 	/**
 	 * Interrupt the execution of any future tasks, returning tasks that have
 	 * been interrupted.
@@ -83,25 +102,6 @@ public class FutureThreadPool<T> {
 			futures = new ArrayList<Future<T>>();
 		}
 		futures.add(threadPool.submit(task));
-	}
-
-	public List<T> getCompletedTasks() {
-		threadPool.shutdown();
-		try {
-			threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-		} catch (final InterruptedException e) {
-			LOGGER.warning("Thread Pool Interrupted "
-					+ ExceptionUtils.getFullStackTrace(e));
-		}
-		final List<T> outputs = Lists.newArrayList();
-		for (final Future<T> future : futures) {
-			try {
-				outputs.add(future.get());
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
-		}
-		return outputs;
 	}
 
 }

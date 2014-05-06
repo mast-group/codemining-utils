@@ -20,6 +20,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 import codemining.util.SettingsLoader;
 
+import com.google.common.collect.Lists;
+
 /**
  * A wrapper around Java's thread pool using Future. Uses Callable so tasks can
  * return values.
@@ -27,13 +29,13 @@ import codemining.util.SettingsLoader;
  * @author Jaroslav Fowkes <jaroslav.fowkes@ed.ac.uk>
  * 
  */
-public class FutureThreadPool {
+public class FutureThreadPool<T> {
 
 	private static final Logger LOGGER = Logger
 			.getLogger(FutureThreadPool.class.getName());
 
 	private final ExecutorService threadPool;
-	private List<Future<?>> futures;
+	private List<Future<T>> futures;
 
 	public static final int NUM_THREADS = (int) SettingsLoader
 			.getNumericSetting("nThreads", Runtime.getRuntime()
@@ -62,9 +64,9 @@ public class FutureThreadPool {
 		return threadPool.shutdownNow();
 	}
 
-	public void pushAll(final Collection<Callable<?>> tasks) {
-		futures = new ArrayList<Future<?>>();
-		for (final Callable<?> task : tasks) {
+	public void pushAll(final Collection<Callable<T>> tasks) {
+		futures = new ArrayList<Future<T>>();
+		for (final Callable<T> task : tasks) {
 			futures.add(threadPool.submit(task));
 		}
 	}
@@ -74,16 +76,16 @@ public class FutureThreadPool {
 	 * 
 	 * @param task
 	 */
-	public void pushTask(final Callable<?> task) {
+	public void pushTask(final Callable<T> task) {
 		checkArgument(!threadPool.isShutdown(),
 				"Cannot submit task to thread pool that has already been shutdown.");
 		if (futures == null) {
-			futures = new ArrayList<Future<?>>();
+			futures = new ArrayList<Future<T>>();
 		}
 		futures.add(threadPool.submit(task));
 	}
 
-	public <T> void putCompletedTasks(final Collection<T> outputs) {
+	public List<T> getCompletedTasks() {
 		threadPool.shutdown();
 		try {
 			threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
@@ -91,13 +93,15 @@ public class FutureThreadPool {
 			LOGGER.warning("Thread Pool Interrupted "
 					+ ExceptionUtils.getFullStackTrace(e));
 		}
-		for (final Future<?> future : futures) {
+		final List<T> outputs = Lists.newArrayList();
+		for (final Future<T> future : futures) {
 			try {
-				outputs.add((T) future.get());
+				outputs.add(future.get());
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
 		}
+		return outputs;
 	}
 
 }

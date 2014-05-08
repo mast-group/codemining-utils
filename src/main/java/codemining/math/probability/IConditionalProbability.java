@@ -20,7 +20,7 @@ public interface IConditionalProbability<A, B> {
 	 * @return the maximum likelihood element for the given. If the given does
 	 *         not exist an empty optional is returned.
 	 */
-	public Optional<A> getMaximumLikelihoodElement(B given);
+	Optional<A> getMaximumLikelihoodElement(B given);
 
 	/**
 	 * Return the maximum likelihood (unsmoothed) probability for an element
@@ -31,6 +31,6 @@ public interface IConditionalProbability<A, B> {
 	 * @param given
 	 * @return
 	 */
-	public double getMLProbability(A element, B given);
+	double getMLProbability(A element, B given);
 
 }

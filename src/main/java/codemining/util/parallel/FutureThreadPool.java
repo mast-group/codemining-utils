@@ -29,7 +29,7 @@ import com.google.common.collect.Lists;
  * @author Jaroslav Fowkes <jaroslav.fowkes@ed.ac.uk>
  * 
  */
-public class FutureThreadPool<T> {
+public final class FutureThreadPool<T> {
 
 	private static final Logger LOGGER = Logger
 			.getLogger(FutureThreadPool.class.getName());

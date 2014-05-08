@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 import com.google.common.base.Optional;
 import com.google.common.math.DoubleMath;
 
-public class StatsUtil {
+public final class StatsUtil {
 
 	private static final double LN_2 = Math.log(2);
 

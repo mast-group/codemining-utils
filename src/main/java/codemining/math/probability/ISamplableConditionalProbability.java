@@ -20,5 +20,5 @@ public interface ISamplableConditionalProbability<A, B> extends
 	 * @param given
 	 * @return
 	 */
-	public Optional<A> getRandomSample(B given);
+	Optional<A> getRandomSample(B given);
 }

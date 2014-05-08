@@ -8,13 +8,13 @@ package codemining.util.serialization;
  */
 public interface ISerializationStrategy {
 
-	public class SerializationException extends Exception {
+	class SerializationException extends Exception {
 		private static final long serialVersionUID = 7492466587431989538L;
 
-		public SerializationException(Throwable e) {
+		public SerializationException(final Throwable e) {
 			super(e);
 		}
-	};
+	}
 
 	/**
 	 * Deserialize from data.

@@ -28,7 +28,7 @@ import com.google.common.collect.Multiset;
  * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
  * 
  */
-public class SampleUtils {
+public final class SampleUtils {
 
 	/**
 	 * Get a uniformly random element from a Collection.

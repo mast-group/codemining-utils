@@ -26,7 +26,7 @@ import com.google.common.collect.Multimap;
  * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
  * 
  */
-public class FilesetSplit {
+public final class FilesetSplit {
 
 	/**
 	 * A file weighting function that assigns equal weight to each file

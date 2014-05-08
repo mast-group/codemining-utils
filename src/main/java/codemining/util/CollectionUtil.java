@@ -21,7 +21,7 @@ import com.google.common.collect.Sets;
  * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
  * 
  */
-public class CollectionUtil {
+public final class CollectionUtil {
 
 	/**
 	 * Return the elements that have been seen at least nSeen times.

@@ -22,7 +22,7 @@ import codemining.util.SettingsLoader;
  * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
  * 
  */
-public class ParallelThreadPool {
+public final class ParallelThreadPool {
 
 	private static final Logger LOGGER = Logger
 			.getLogger(ParallelThreadPool.class.getName());

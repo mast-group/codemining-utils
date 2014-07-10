@@ -1,6 +1,6 @@
 /**
  * Various useful statistics utilities
- * 
+ *
  * @author Jaroslav Fowkes
  */
 package codemining.util;
@@ -16,11 +16,9 @@ import com.google.common.math.DoubleMath;
 
 public final class StatsUtil {
 
-	private static final double LN_2 = Math.log(2);
-
 	/**
 	 * Return the element with the maximum value in the map.
-	 * 
+	 *
 	 * @param valuedObjects
 	 * @return
 	 */
@@ -44,35 +42,35 @@ public final class StatsUtil {
 	 * Code ported from LingPipe This method returns the log of the sum of the
 	 * natural exponentiated values in the specified array. Mathematically, the
 	 * result is
-	 * 
+	 *
 	 * <blockquote>
-	 * 
+	 *
 	 * <pre>
 	 * logSumOfExponentials(xs) = log <big><big>( &Sigma;</big></big><sub>i</sub> exp(xs[i]) <big><big>)</big></big>
 	 * </pre>
-	 * 
+	 *
 	 * </blockquote>
-	 * 
+	 *
 	 * But the result is not calculated directly. Instead, the calculation
 	 * performed is:
-	 * 
+	 *
 	 * <blockquote>
-	 * 
+	 *
 	 * <pre>
 	 * logSumOfExponentials(xs) = max(xs) + log <big><big>( &Sigma;</big></big><sub>i</sub> exp(xs[i] - max(xs)) <big><big>)</big></big>
 	 * </pre>
-	 * 
+	 *
 	 * </blockquote>
-	 * 
+	 *
 	 * which produces the same result, but is much more arithmetically stable,
 	 * because the largest value for which <code>exp()</code> is calculated is
 	 * 0.0.
-	 * 
+	 *
 	 * <p>
 	 * Values of {@code Double.NEGATIVE_INFINITY} are treated as having
 	 * exponentials of 0 and logs of negative infinity. That is, they are
 	 * ignored for the purposes of this computation.
-	 * 
+	 *
 	 * @param values
 	 *            Array of values.
 	 * @return The log of the sum of the exponentiated values in the array.
@@ -113,14 +111,11 @@ public final class StatsUtil {
 	}
 
 	/**
-	 * Retrieve the max element
-	 * 
-	 * @param values
-	 * @return
+	 * Calculates the max of an Array
 	 */
-	public static double max(final Collection<Double> values) {
+	public static double max(final double... array) {
 		double max = Double.NEGATIVE_INFINITY;
-		for (final double value : values) {
+		for (final double value : array) {
 			if (max < value) {
 				max = value;
 			}
@@ -129,11 +124,14 @@ public final class StatsUtil {
 	}
 
 	/**
-	 * Calculates the max of an Array
+	 * Retrieve the max element
+	 *
+	 * @param values
+	 * @return
 	 */
-	public static double max(final double... array) {
+	public static double max(final Iterable<Double> values) {
 		double max = Double.NEGATIVE_INFINITY;
-		for (final double value : array) {
+		for (final double value : values) {
 			if (max < value) {
 				max = value;
 			}
@@ -166,7 +164,7 @@ public final class StatsUtil {
 
 	/**
 	 * Retrieve the min element
-	 * 
+	 *
 	 * @param xs
 	 * @return
 	 */
@@ -230,7 +228,7 @@ public final class StatsUtil {
 
 	/**
 	 * Normalize the given probabilities in place.
-	 * 
+	 *
 	 * @param memebrshipPcts
 	 */
 	public static <T> void normalizeLog2Probs(final Map<T, Double> log2prob) {
@@ -263,5 +261,7 @@ public final class StatsUtil {
 		}
 		return sum;
 	}
+
+	private static final double LN_2 = Math.log(2);
 
 }

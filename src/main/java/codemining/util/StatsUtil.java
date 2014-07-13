@@ -129,9 +129,9 @@ public final class StatsUtil {
 	 * @param values
 	 * @return
 	 */
-	public static double max(final Iterable<Double> values) {
-		double max = Double.NEGATIVE_INFINITY;
-		for (final double value : values) {
+	public static Double max(final Iterable<Double> values) {
+		Double max = Double.NEGATIVE_INFINITY;
+		for (final Double value : values) {
 			if (max < value) {
 				max = value;
 			}

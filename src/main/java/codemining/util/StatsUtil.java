@@ -39,6 +39,22 @@ public final class StatsUtil {
 	}
 
 	/**
+	 * Average an int array elements with divisor.
+	 * 
+	 * @param array
+	 * @param divisor
+	 * @return
+	 */
+	public static double[] divideArrayElements(final int[] array,
+			final int divisor) {
+		final double[] averaged = new double[array.length];
+		for (int i = 0; i < averaged.length; i++) {
+			averaged[i] = ((double) array[i]) / divisor;
+		}
+		return averaged;
+	}
+
+	/**
 	 * Code ported from LingPipe This method returns the log of the sum of the
 	 * natural exponentiated values in the specified array. Mathematically, the
 	 * result is

@@ -17,6 +17,28 @@ import com.google.common.math.DoubleMath;
 public final class StatsUtil {
 
 	/**
+	 * Return the max idx of the array.
+	 *
+	 * @param array
+	 * @return
+	 */
+	public static Optional<Integer> argmax(final double[] array) {
+		double max = Double.NEGATIVE_INFINITY;
+		int maxIdx = -1;
+		for (int i = 0; i < array.length; i++) {
+			if (max < array[i]) {
+				max = array[i];
+				maxIdx = i;
+			}
+		}
+		if (maxIdx == -1) {
+			return Optional.absent();
+		} else {
+			return Optional.of(maxIdx);
+		}
+	}
+
+	/**
 	 * Return the element with the maximum value in the map.
 	 *
 	 * @param valuedObjects
@@ -40,7 +62,7 @@ public final class StatsUtil {
 
 	/**
 	 * Average an int array elements with divisor.
-	 * 
+	 *
 	 * @param array
 	 * @param divisor
 	 * @return
@@ -94,6 +116,20 @@ public final class StatsUtil {
 	public static double log2SumOfExponentials(final Collection<Double> values) {
 		if (values.size() == 1) {
 			return values.iterator().next();
+		}
+		final double max = max(values);
+		double sum = 0.0;
+		for (final double value : values) {
+			if (value != Double.NEGATIVE_INFINITY) {
+				sum += Math.pow(2, value - max);
+			}
+		}
+		return max + DoubleMath.log2(sum);
+	}
+
+	public static double log2SumOfExponentials(final double... values) {
+		if (values.length == 1) {
+			return values[0];
 		}
 		final double max = max(values);
 		double sum = 0.0;
@@ -247,13 +283,25 @@ public final class StatsUtil {
 	 *
 	 * @param memebrshipPcts
 	 */
+	public static void normalizeLog2Probs(final double[] log2prob) {
+		final double sum = log2SumOfExponentials(log2prob);
+
+		for (int i = 0; i < log2prob.length; i++) {
+			log2prob[i] = Math.pow(2, log2prob[i] - sum);
+		}
+	}
+
+	/**
+	 * Normalize the given probabilities in place.
+	 *
+	 * @param memebrshipPcts
+	 */
 	public static <T> void normalizeLog2Probs(final Map<T, Double> log2prob) {
 		final double sum = log2SumOfExponentials(log2prob.values());
 
 		for (final Entry<T, Double> entry : log2prob.entrySet()) {
 			entry.setValue(Math.pow(2, entry.getValue() - sum));
 		}
-
 	}
 
 	/**

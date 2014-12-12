@@ -1,5 +1,6 @@
-codemining-utils
+codemining-utils[![Build Status](https://travis-ci.org/mast-group/codemining-utils.svg?branch=master)](https://travis-ci.org/mast-group/codemining-utils)
 ================
+
 This is a repository containing various utility methods:
 
 * Data Serialization in `codemining.utils.serialization`

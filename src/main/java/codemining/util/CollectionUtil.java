@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package codemining.util;
 
@@ -17,15 +17,15 @@ import com.google.common.collect.Sets;
 
 /**
  * A utility class containing collection-related utilities.
- * 
+ *
  * @author Miltos Allamanis <m.allamanis@ed.ac.uk>
- * 
+ *
  */
 public final class CollectionUtil {
 
 	/**
 	 * Return the elements that have been seen at least nSeen times.
-	 * 
+	 *
 	 * @param nSeen
 	 * @param baseMultiset
 	 * @return
@@ -44,8 +44,26 @@ public final class CollectionUtil {
 	}
 
 	/**
+	 * Return the elements that have been seen at most nSeen times.
+	 *
+	 * @param nSeen
+	 * @param baseMultiset
+	 * @return
+	 */
+	public static <T> Set<T> getElementsWithLessThanCount(final int nSeen,
+			final Multiset<T> baseMultiset) {
+		final Set<T> toKeep = Sets.newHashSet();
+		for (final Entry<T> entry : baseMultiset.entrySet()) {
+			if (entry.getCount() < nSeen) {
+				toKeep.add(entry.getElement());
+			}
+		}
+		return toKeep;
+	}
+
+	/**
 	 * Return the top elements of a sorted set.
-	 * 
+	 *
 	 * @param originalSet
 	 * @param nTopElements
 	 * @return

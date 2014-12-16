@@ -3,6 +3,9 @@
  */
 package codemining.util;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -32,9 +35,10 @@ public final class CollectionUtil {
 	 */
 	public static <T> Set<T> getElementsUpToCount(final int nSeen,
 			final Multiset<T> baseMultiset) {
+		checkArgument(nSeen > 0);
 		final Set<T> toKeep = Sets.newHashSet();
 		for (final Entry<T> entry : Multisets.copyHighestCountFirst(
-				baseMultiset).entrySet()) {
+				checkNotNull(baseMultiset)).entrySet()) {
 			if (entry.getCount() < nSeen) {
 				break;
 			}
@@ -52,8 +56,9 @@ public final class CollectionUtil {
 	 */
 	public static <T> Set<T> getElementsWithLessThanCount(final int nSeen,
 			final Multiset<T> baseMultiset) {
+		checkArgument(nSeen > 0);
 		final Set<T> toKeep = Sets.newHashSet();
-		for (final Entry<T> entry : baseMultiset.entrySet()) {
+		for (final Entry<T> entry : checkNotNull(baseMultiset).entrySet()) {
 			if (entry.getCount() < nSeen) {
 				toKeep.add(entry.getElement());
 			}
